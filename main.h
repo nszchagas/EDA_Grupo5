@@ -18,6 +18,6 @@ int fatorBalanceamento(No *raiz);
 void imprimir(struct no *raiz);
 void liberaNo(struct no *no);
 void liberaArvoreBin(struct no *raiz);
-int NumerosAleatorios();
+void NumerosAleatorios(No* raiz);
 
 #endif //main_h

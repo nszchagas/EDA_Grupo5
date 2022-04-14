@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
+#include "gerar_arquivo.h"
 
-//Criando novo no e retornando seu endereço
+//Criando novo no e retornando seu endereï¿½o
 No* novoNo(int x){
     No *novo = malloc(sizeof(No));
 
@@ -25,7 +26,7 @@ int maior(int x, int y){
         return y;
 }
 
-//Altura do nó
+//Altura do nï¿½
 int alturaNo(struct no* no) {
     if(no==NULL)
         return -1;
@@ -45,7 +46,7 @@ int fatorBalanceamento(No *raiz){
     }
 }
 
-//Rotacação simples à esquerda
+//Rotacaï¿½ï¿½o simples ï¿½ esquerda
 No* RotacaoSimplesEsquerda(No *raiz){
     No *y, *f;
     y = raiz->direita;
@@ -60,7 +61,7 @@ No* RotacaoSimplesEsquerda(No *raiz){
     return y;
 }
 
-//Rotação simples à direita
+//Rotaï¿½ï¿½o simples ï¿½ direita
 No* RotacaoSimplesDireita(No *raiz){
     No *y, *f;
     y = raiz->esquerda;
@@ -75,13 +76,13 @@ No* RotacaoSimplesDireita(No *raiz){
     return y;
 }
 
-//Rotação dupla à esquerda
+//Rotaï¿½ï¿½o dupla ï¿½ esquerda
 No* RotacaoDuplaEsquerda(No *raiz){
     raiz->direita = RotacaoSimplesDireita(raiz->direita);
     return RotacaoSimplesEsquerda(raiz);
 }
 
-//Rotação dupla à direita
+//Rotaï¿½ï¿½o dupla ï¿½ direita
 No* RotacaoDuplaDireita(No *raiz){
     raiz->esquerda = RotacaoSimplesEsquerda(raiz->esquerda);
     return RotacaoSimplesDireita(raiz);
@@ -104,7 +105,7 @@ No* balancear(No *raiz){
     return raiz;
 }
 
-//Inserindo nó na árvore e retornando o seu endereço
+//Inserindo nï¿½ na ï¿½rvore e retornando o seu endereï¿½o
 No* inserir(No *raiz, int valor){
     if(raiz == NULL){
         return novoNo(valor);
@@ -131,7 +132,7 @@ void imprimir(struct no *raiz){
 }
 
 
-//Desalocando nós da Árvore Binária
+//Desalocando nï¿½s da ï¿½rvore Binï¿½ria
 void liberaNo(struct no *no){
     if(no==NULL){
         return;
@@ -143,9 +144,9 @@ void liberaNo(struct no *no){
 }
 
 
-//Gerando Números Aleatórios (Sem repetir)
-int NumerosAleatorios(){
-    No *raiz=NULL;
+//Gerando Nï¿½meros Aleatï¿½rios (Sem repetir)
+void NumerosAleatorios(No *raiz){
+    raiz=NULL;
     int i=0;
     int j;
     int igual;
@@ -181,42 +182,46 @@ int main(){
     printf("\n \n \n");
     printf("------------------------ [ Menu ] --------------------------\n"
 	"                 1 -   Gerar ABP                             \n"
-	"                 2 -   Fator de Balanceamento                \n"
-	"                 3 -   Imprimir Chaves e FB                  \n"
-	"                 4 -   Sair                                  \n"
+    "                 2 -   Gerar CSV com numeros aleatorios      \n"
+	"                 3 -   Fator de Balanceamento                \n"
+	"                 4 -   Imprimir Chaves e FB                  \n"
+	"                 5 -   Sair                                  \n"
     "-------------------------------------------------------------\n");
     printf("Escolha uma das opcoes acima: \n \n");
         scanf("%d", &escolha);
         switch(escolha){
             case 1:
                 printf("Gerando numeros aleatorios... \n \n");
-                raiz=NumerosAleatorios();
+                NumerosAleatorios(raiz);
                 printf("\n \n");
                 printf("Inserindo nos na [ArvoreBinaria]... \n \n");
                 if (raiz!=NULL)
                     printf("ABP gerada com sucesso!!");
                 break;
             case 2:
+                criar_arquivo();
+                break;
+            case 3:
                 printf("Calculando o fator de Balanceamento... \n \n");
                 fatorBalanceamento(raiz);
                 if(raiz->fator<2 && raiz->fator>-2 )
                     printf("Arvore Balanceada com sucesso!");
                 break;
-            case 3:
+            case 4:
                 printf("Imprimindo Chaves e Balanceamento... \n \n");
                 printf("Chaves e Fator de Balanceamento \n");
                 imprimir(raiz);
                 break;
-            case 4:
+            case 5:
                 printf("Desalocando nos... \n \n");
                 liberaNo(raiz);
                 if (raiz==NULL);
-                    printf("Desalocao realizada com sucesso! \n");
+                    printf("Desalocacao realizada com sucesso! \n");
                 break;
             default:
                 printf("Invalido!");
         }
-    }while(escolha!=4);
+    }while(escolha!=5);
 
     return 0;
 }
