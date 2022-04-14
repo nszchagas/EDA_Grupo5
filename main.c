@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "gerar_arquivo.c"
+#include "gerar_arquivo.h"
 
 /**
 * Arvore binaria balanceada
@@ -211,17 +213,47 @@ void imprimir(No *raiz, int nivel){
         imprimir(raiz->esquerdo, nivel+1);
     }
 }
+
+No* adicionar(){
+    printf("entrou");
+    No *raiz = NULL;
+    FILE *arquivo = fopen("numeros.txt", "r");
+    if (arquivo == NULL){
+        printf("Erro ao tentar abrir arquivo");
+    }else {
+    int ch = 0;
+
+    while (!feof(arquivo)) {
+        fscanf(arquivo, "%d", &ch);
+        raiz = inserir(raiz, ch);
+    }
+
+    //Fecha o arquivo
+    fclose(arquivo);
+
+    //Exibe a quantidade de linhas
+    printf("alba");
+    }
+    return raiz;
+
+}
+
+
+
 int main(){
     int opcao, valor;
     No *raiz = NULL;
+
+    criar_arquivo();
+    raiz = adicionar();
 
     do{
         printf("\n\n\n0-Sair 1-Inserir 2-Remover 3-Imprimir\n\n\n");
         scanf("%d", &opcao);
         switch(opcao){
             case 0:
-                printf("Saiu");
-                break;
+                printf("Saiu");                   
+                 break;
             case 1:
                 printf("Valor?\n");
                 scanf("%d", &valor);
@@ -239,5 +271,7 @@ int main(){
                 printf("Invalido!");
         }
     }while(opcao != 0);
+    
     return 0;
 }
+
