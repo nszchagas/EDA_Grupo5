@@ -2,24 +2,8 @@
 #include <stdlib.h>
 #include "arquivos.h"
 #include "estruturas.h"
-/**
-* Objetivo: Arvore binaria balanceada
-* Entrada: Opcao escolhida pelo usuario de arquivo
-* Saida: Arvore binaria e fator de balanceamento
-*/
-            /*
 
-                    O QUE ESTA FALTANDO?
-                    >> Calcular o fator de balanceamento na opcao 2
-                    >> Imprimir fator de balanceamento na opcao 3
-                    >> Desalocar os nos na opcao 4
 
-                    IMPORTANTE:
-                    Nao mudar o codigo. Se quiser acrescentar algo,
-                    crie uma funcao separada em estruturas.c
-                    e a partir dali mude o codigo
-
-            */
 int main(){
     // Declaracoes
     char endereco_arquivo[30]; // Ponteiro para endereço do arquivo
@@ -30,14 +14,14 @@ int main(){
     aux = 0, valor = 0;
     // Sinal onde goto deve retornar
     inicio:
-    // Limpar a tela após retorno
+    // Limpando a tela após retorno
     if(opcao < 1 && opcao > 5 || opcao >= 1){
         getch();
         limpar();
     }
-    menu(); // Chamar menu de escolhas
+    menu(); // Chamando menu de escolhas
     scanf("%d", &opcao);
-    // Limpar a tela
+    // Limpando a tela
     limpar();
     switch(opcao){
         /** Concluido. Nao alterar. */
@@ -65,13 +49,13 @@ int main(){
             }
             // Sinal 2 onde o goto deve continuar
             continua:
-            // Avaliar arquivo aberto e gerar arvore
+            // Avaliando arquivo aberto e gerar arvore
             if(arquivo_csv == NULL){
                 //Não aberto
                 printf("Erro! Arquivo %s nao pode ser aberto.\n", endereco_arquivo);
             }else{
                 rewind(arquivo_csv);
-                // Inserir todos os numeros do arquivo na arvore
+                // Inserindo todos os numeros do arquivo na arvore
                 while((aux = fscanf(arquivo_csv, "%d", &valor) != EOF)){
                     raiz = inserir(raiz, valor);
                     fseek(arquivo_csv, 1, SEEK_CUR);
@@ -79,18 +63,21 @@ int main(){
             }
             goto inicio;
             break;
-        /** Nao feito */
         case 2:
-            /* funcao() */
+            printf("Calculando fatores de balanceamento: \n");
+            fatorBalanceamento(raiz);
             goto inicio;
             break;
-        /** Falta imprimir os fatores de balanceamento */
         case 3:
-            imprimir(raiz, 1); // Imprimir a arvore binaria
-            /* funcao() */
+            printf("- - - - - - - - - - - - - - - - - - - - - - \n");
+            printf("Arvore Binaria: \n");
+            imprimirArvore(raiz, 1); // Imprime a arvore binaria
+            printf("\n");
+            printf("- - - - - - - - - - - - - - - - - - - - - - \n");
+            printf("Chaves e Fator de Balanceamento: \n");
+            imprimir(raiz);
             goto inicio;
             break;
-        /** A funcao liberarNo nao funciona */
         case 4:
             liberaNo(raiz);
             if (raiz == NULL){

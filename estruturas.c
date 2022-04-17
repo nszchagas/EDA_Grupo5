@@ -1,234 +1,165 @@
 #include "estruturas.h"
 #include <stddef.h>
-typedef struct no{ // Nao retirar de avl.c
-    int valor;
-    struct no *esquerdo, *direito;
-    short altura; // Altura do no
-    short fator; // Fator de balanceamento
+typedef struct no{
+    int chave;
+    struct no *esquerda;
+    struct no *direita;
+    int altura;
+    int fator;
 }No;
-/**
-* Criar novo no.
-* Retorna o endereco do novo no.
-*/
+
+//Criando novo no e retornando seu endereço
 No* novoNo(int x){
     No *novo = malloc(sizeof(No));
 
     if(novo){
-        novo->valor = x;
-        novo->esquerdo = NULL;
-        novo->direito = NULL;
-        novo->altura = 0;
-        novo->fator = 0;
+        novo->esquerda = NULL;
+        novo->direita = NULL;
+        novo->chave = x;
+        novo->altura= 0;
     }else{
         printf("Erro ao alocar no.");
     }
     return novo;
 }
 
-/**
-* Receber duas alturas e verificar a maior altura.
-* Retorna a maior altura.
-*/
-short maior(short a, short b){
-    return (a>b)? a: b;
+//Maior valor
+int maior(int x, int y){
+    if(x>y)
+        return x;
+    else
+        return y;
 }
 
-/**
-* Receber um no e verificar valor NULL.
-* Retorna altura se no nao for NULL, -1 caso contrario.
-*/
-short altura(No *no){
-    if(no == NULL){
+//Altura do nó
+int alturaNo(struct no* no) {
+    if(no==NULL)
         return -1;
-    }else{
+    else
         return no->altura;
-    }
 }
-
-/**
-* Calcular o fator de balanceamento de um no.
-* Retorna o fator de balanceamento.
-*/
-short fator(No *no){
-    if(no){
-        return (altura(no->esquerdo) - altura(no->direito));
+//Calculando fator de balanceamento
+int fatorBalanceamento(No *raiz){
+    if(raiz){
+        int direito=fatorBalanceamento(raiz->direita);
+        int esquerdo=fatorBalanceamento(raiz->esquerda);
+        int Balanceamento=direito-esquerdo;
+        raiz->fator=Balanceamento;
+        return (alturaNo(raiz->esquerda) - alturaNo(raiz->direita));
     }else{
         return 0;
     }
 }
 
-/**
-* Rotacionar no a esquerda.
-* Retorna
-*/
-No* esquerda(No *r){
+//Rotacação simples à1 esquerda
+No* RotacaoSimplesEsquerda(No *raiz){
     No *y, *f;
-    y = r->direito;
-    f = y->esquerdo;
+    y = raiz->direita;
+    f = y->esquerda;
 
-    y->esquerdo = r;
-    r->direito = f;
+    y->esquerda = raiz;
+    raiz->direita = f;
 
-    r->altura = maior(altura(r->esquerdo), altura(r->direito)) + 1;
-    y->altura = maior(altura(y->esquerdo), altura(y->direito)) + 1;
+    raiz->altura = maior(alturaNo(raiz->esquerda), alturaNo(raiz->direita)) + 1;
+    y->altura = maior(alturaNo(y->esquerda), alturaNo(y->direita)) + 1;
 
     return y;
 }
 
-/**
-* Rotacionar no a direita.
-* Retorna
-*/
-No* direita(No *r){
+//Rotação simples à direita
+No* RotacaoSimplesDireita(No *raiz){
     No *y, *f;
-    y = r->esquerdo;
-    f = y->direito;
+    y = raiz->esquerda;
+    f = y->direita;
 
-    y->direito = r;
-    r->esquerdo = f;
+    y->direita = raiz;
+    raiz->esquerda = f;
 
-    r->altura = maior(altura(r->esquerdo), altura(r->direito)) + 1;
-    y->altura = maior(altura(y->esquerdo), altura(y->direito)) + 1;
+    raiz->altura = maior(alturaNo(raiz->esquerda), alturaNo(raiz->direita)) + 1;
+    y->altura = maior(alturaNo(y->esquerda), alturaNo(y->direita)) + 1;
 
     return y;
 }
 
-/**
-* Rotacionar para direita e para esquerda
-*/
-No* dupla_d_e(No *r){
-    r->direito = direita(r->direito);
-    return esquerda(r);
+//Rotação dupla à esquerda
+No* RotacaoDuplaEsquerda(No *raiz){
+    raiz->direita = RotacaoSimplesDireita(raiz->direita);
+    return RotacaoSimplesEsquerda(raiz);
 }
 
-/**
-* Rotacionar para a esquerda e para a direita
-*/
-No* dupla_e_d(No *r){
-    r->esquerdo = esquerda(r->esquerdo);
-    return direita(r);
+//Rotação dupla à direita
+No* RotacaoDuplaDireita(No *raiz){
+    raiz->esquerda = RotacaoSimplesEsquerda(raiz->esquerda);
+    return RotacaoSimplesDireita(raiz);
 }
 
-/**
-*
-*/
+//Balanceando
 No* balancear(No *raiz){
-    short ft = fator(raiz);
+    short fatorBalanca = fatorBalanceamento(raiz);
 
-    if(ft <-1 && fator(raiz->direito) <= 0){
-        raiz = esquerda(raiz);
-    }else if( ft > 1 && fator(raiz ->esquerdo) >= 0){
-        raiz = direita(raiz);
-    }else if( ft > 1 && fator(raiz->esquerdo) < 0){
-        raiz = dupla_e_d(raiz);
-    }else if( ft < -1 && fator(raiz->direito) > 0){
-        raiz = dupla_d_e(raiz);
+    if(fatorBalanca < -1 && fatorBalanceamento(raiz->direita) <= 0){
+        raiz = RotacaoSimplesEsquerda(raiz);
+    }else if( fatorBalanca > 1 && fatorBalanceamento(raiz ->esquerda) >= 0){
+        raiz = RotacaoSimplesDireita(raiz);
+    }else if( fatorBalanca > 1 && fatorBalanceamento(raiz->esquerda) < 0){
+        raiz = RotacaoDuplaDireita(raiz);
+    }else if( fatorBalanca < -1 && fatorBalanceamento(raiz->direita) > 0){
+        raiz = RotacaoDuplaEsquerda(raiz);
     }
 
     return raiz;
 }
 
-/**
-* Inserir um novo no na arvore
-* Retorna endereco
-*/
-No* inserir(No *raiz, int x){
+//Inserindo nó na árvore e retornando o seu endereço
+No* inserir(No *raiz, int valor){
     if(raiz == NULL){
-        return novoNo(x);
-    }else if(x < raiz->valor){
-            raiz->esquerdo = inserir(raiz->esquerdo,x);
-    }else if(x > raiz->valor){
-            raiz->direito = inserir(raiz->direito,x);
+        return novoNo(valor);
+    }else if(valor < raiz->chave){
+            raiz->esquerda = inserir(raiz->esquerda,valor);
+    }else if(valor > raiz->chave){
+            raiz->direita = inserir(raiz->direita,valor);
     }else{
-        printf("Insercao do valor %d nao realizada. O elemento ja existe.\nDemais valores inseridos.\n", x);
+       printf("Insercao nao realizada. %d existe", valor);
     }
-    raiz->altura = maior(altura(raiz->esquerdo), altura(raiz->direito))+1;
+    raiz->altura = maior(alturaNo(raiz->esquerda), alturaNo(raiz->direita))+1;
     raiz = balancear(raiz);
-    fator(raiz);
+    fatorBalanceamento(raiz);
 
     return raiz;
 }
 
-/**
-*
-*/
-No* remover(No *raiz, int chave){
-    if(raiz == NULL){
-        printf("Valor nao encontrado.\n");
-        return NULL;
-    }else{
-        if(raiz->valor == chave){
-            if(raiz->esquerdo == NULL && raiz->direito == NULL){
-                free(raiz);
-                printf("Elemento %d removido.\n", chave);
-                return NULL;
-            }
-            else{
-                if(raiz->esquerdo != NULL && raiz->direito != NULL){
-                    No *aux = raiz->esquerdo;
-                    while(aux->direito != NULL){
-                        aux = aux->direito;
-                    }
-                raiz->valor = aux->valor;
-                aux->valor = chave;
-                printf("Elemento %d trocado.\n", chave);
-                raiz->esquerdo = remover(raiz->esquerdo, chave);
-                return raiz;
-            }
-            else{
-                No *aux;
-                if(raiz->esquerdo != NULL){
-                    aux = raiz->esquerdo;
-                }else{
-                    aux = raiz->direito;
-                }
-                free(raiz);
-                printf("Elemento %d com um no removido.\n", chave);
-                return aux;
-            }
-        }
-    }else{
-        if(chave < raiz->valor){
-            raiz->esquerdo = remover(raiz->esquerdo, chave);
-        }else{
-            raiz->direito = remover(raiz->direito, chave);
-        }
-    }
-    raiz->altura = maior(altura(raiz->esquerdo), altura(raiz->direito))+1;
-    raiz=balancear(raiz);
-    return raiz;
-    }
-}
-
-/**
-*
-*/
-void imprimir(No *raiz, int nivel){
+void imprimirArvore(No *raiz, int nivel){
     int i;
     if(raiz){
-        imprimir(raiz->direito, nivel+1);
+        imprimirArvore(raiz->direita, nivel+1);
         printf("\n\n");
         for(i = 0; i<nivel;i++){
             printf("\t");
         }
-        printf("%d", raiz->valor);
-        imprimir(raiz->esquerdo, nivel+1);
+        printf("%d", raiz->chave);
+        imprimirArvore(raiz->esquerda, nivel+1);
     }
 
 }
-/**
-*
-*/
 
-/**
-* Desalocar nos da arvore
-*/
-int liberaNo(No *no){
-    if(no == NULL){
+//Imprimindo as chaves e o fator de balanceamento
+void imprimir(struct no *raiz){
+    if(raiz!=NULL){
+        imprimir(raiz->esquerda);
+        printf("Chave:%d ||| FatorBalanceamento:%d \n", raiz->chave, raiz->fator);
+        imprimir(raiz->direita);
+    }
+}
+
+//Desalocando nós da Árvore Binária
+void liberaNo(No *no){
+    if(no==NULL){
         return;
     }
-    liberaNo(no->esquerdo);
-    liberaNo(no->direito);
+    liberaNo(no->esquerda);
+    liberaNo(no->direita);
     free(no);
-    no = NULL;
+    no=NULL;
 }
+
+
