@@ -8,7 +8,7 @@ typedef struct no{
     int fator;
 }No;
 
-//Criando novo no e retornando seu endereço
+//Criando novo no e retornando seu endereï¿½o
 No* novoNo(int x){
     No *novo = malloc(sizeof(No));
 
@@ -31,15 +31,16 @@ int maior(int x, int y){
         return y;
 }
 
-//Altura do nó
+//Altura do nï¿½
 int alturaNo(struct no* no) {
     if(no==NULL)
         return -1;
     else
         return no->altura;
 }
+
 //Calculando fator de balanceamento
-int fatorBalanceamento(No *raiz){
+int fatorBalanceamento(struct no *raiz){
     if(raiz){
         int direito=fatorBalanceamento(raiz->direita);
         int esquerdo=fatorBalanceamento(raiz->esquerda);
@@ -51,7 +52,7 @@ int fatorBalanceamento(No *raiz){
     }
 }
 
-//Rotacação simples à1 esquerda
+//Rotacaï¿½ï¿½o simples ï¿½1 esquerda
 No* RotacaoSimplesEsquerda(No *raiz){
     No *y, *f;
     y = raiz->direita;
@@ -66,7 +67,7 @@ No* RotacaoSimplesEsquerda(No *raiz){
     return y;
 }
 
-//Rotação simples à direita
+//Rotaï¿½ï¿½o simples ï¿½ direita
 No* RotacaoSimplesDireita(No *raiz){
     No *y, *f;
     y = raiz->esquerda;
@@ -81,13 +82,13 @@ No* RotacaoSimplesDireita(No *raiz){
     return y;
 }
 
-//Rotação dupla à esquerda
+//Rotaï¿½ï¿½o dupla ï¿½ esquerda
 No* RotacaoDuplaEsquerda(No *raiz){
     raiz->direita = RotacaoSimplesDireita(raiz->direita);
     return RotacaoSimplesEsquerda(raiz);
 }
 
-//Rotação dupla à direita
+//Rotaï¿½ï¿½o dupla ï¿½ direita
 No* RotacaoDuplaDireita(No *raiz){
     raiz->esquerda = RotacaoSimplesEsquerda(raiz->esquerda);
     return RotacaoSimplesDireita(raiz);
@@ -110,7 +111,7 @@ No* balancear(No *raiz){
     return raiz;
 }
 
-//Inserindo nó na árvore e retornando o seu endereço
+//Inserindo nï¿½ na ï¿½rvore e retornando o seu endereï¿½o
 No* inserir(No *raiz, int valor){
     if(raiz == NULL){
         return novoNo(valor);
@@ -151,7 +152,7 @@ void imprimir(struct no *raiz){
     }
 }
 
-//Desalocando nós da Árvore Binária
+//Desalocando nï¿½s da ï¿½rvore Binï¿½ria
 void liberaNo(No *no){
     if(no==NULL){
         return;

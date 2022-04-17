@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include "arquivos.h"
 #include "estruturas.h"
+#include "arquivos.c"
+#include "estruturas.c"
 
 
 int main(){
     // Declaracoes
-    char endereco_arquivo[30]; // Ponteiro para endereço do arquivo
+    char endereco_arquivo[30]; // Ponteiro para endereï¿½o do arquivo
     FILE *arquivo_csv = NULL;
     int aux, opcao, valor;
     No *raiz = NULL;
@@ -14,7 +16,7 @@ int main(){
     aux = 0, valor = 0;
     // Sinal onde goto deve retornar
     inicio:
-    // Limpando a tela após retorno
+    // Limpando a tela apï¿½s retorno
     if(opcao < 1 && opcao > 5 || opcao >= 1){
         getch();
         limpar();
@@ -51,7 +53,7 @@ int main(){
             continua:
             // Avaliando arquivo aberto e gerar arvore
             if(arquivo_csv == NULL){
-                //Não aberto
+                //Nï¿½o aberto
                 printf("Erro! Arquivo %s nao pode ser aberto.\n", endereco_arquivo);
             }else{
                 rewind(arquivo_csv);
@@ -65,7 +67,7 @@ int main(){
             break;
         case 2:
             printf("Calculando fatores de balanceamento: \n");
-            fatorBalanceamento(raiz);
+            printf("%d", fatorBalanceamento(raiz));
             goto inicio;
             break;
         case 3:
