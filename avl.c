@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "arquivos.h"
-#include "estruturas.h"
+#include "arquivos.c"
+#include "estruturas.c"
 /**
 * Objetivo: Arvore binaria balanceada
 * Entrada: Opcao escolhida pelo usuario de arquivo
@@ -22,15 +22,16 @@
             */
 int main(){
     // Declaracoes
-    char endereco_arquivo[30]; // Ponteiro para endereÁo do arquivo
+    char endereco_arquivo[30]; // Ponteiro para endere√ßo do arquivo
     FILE *arquivo_csv = NULL;
     int aux, opcao, valor;
     No *raiz = NULL;
+    No *fator = NULL;
     // Instrucoes
     aux = 0, valor = 0;
     // Sinal onde goto deve retornar
     inicio:
-    // Limpar a tela apÛs retorno
+    // Limpar a tela ap√≥s retorno
     if(opcao < 1 && opcao > 5 || opcao >= 1){
         getch();
         limpar();
@@ -40,7 +41,7 @@ int main(){
     // Limpar a tela
     limpar();
     switch(opcao){
-        /** Concluido. Nao alterar. */
+        /** Conclu√≠do. Nao alterar. */
         case 1:
             opcoes();
             opcao = 0;
@@ -67,21 +68,24 @@ int main(){
             continua:
             // Avaliar arquivo aberto e gerar arvore
             if(arquivo_csv == NULL){
-                //N„o aberto
+                //N√£o aberto
                 printf("Erro! Arquivo %s nao pode ser aberto.\n", endereco_arquivo);
             }else{
                 rewind(arquivo_csv);
                 // Inserir todos os numeros do arquivo na arvore
                 while((aux = fscanf(arquivo_csv, "%d", &valor) != EOF)){
                     raiz = inserir(raiz, valor);
+                    fator = calculaFator(raiz, valor);
                     fseek(arquivo_csv, 1, SEEK_CUR);
                 }
             }
+
             goto inicio;
             break;
-        /** Nao feito */
+        /** N√£o feito */
         case 2:
             /* funcao() */
+            imprimir(fator, 1);
             goto inicio;
             break;
         /** Falta imprimir os fatores de balanceamento */

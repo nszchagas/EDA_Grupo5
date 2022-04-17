@@ -6,6 +6,7 @@ typedef struct no{ // Nao retirar de avl.c
     short altura; // Altura do no
     short fator; // Fator de balanceamento
 }No;
+
 /**
 * Criar novo no.
 * Retorna o endereco do novo no.
@@ -110,14 +111,33 @@ No* dupla_e_d(No *r){
 }
 
 /**
-*
+* Calcula o fator de balancemaneto antes de balancear
+*/
+No* calculaFator(No *raiz, int x){
+    if(raiz == NULL){
+        return novoNo(x);
+    }else if(x < raiz->valor){
+            raiz->esquerdo = inserir(raiz->esquerdo,x);
+    }else if(x > raiz->valor){
+            raiz->direito = inserir(raiz->direito,x);
+    }else{
+        printf("Insercao do valor %d nao realizada. O elemento ja existe.\nDemais valores inseridos.\n", x);
+    }
+    raiz->altura = maior(altura(raiz->esquerdo), altura(raiz->direito))+1;
+
+    short ft = fator(raiz);
+    return ft;
+}
+
+/**
+* Balanceia a ABP e transforma em um AVL
 */
 No* balancear(No *raiz){
     short ft = fator(raiz);
 
     if(ft <-1 && fator(raiz->direito) <= 0){
         raiz = esquerda(raiz);
-    }else if( ft > 1 && fator(raiz ->esquerdo) >= 0){
+    }else if( ft > 1 && fator(raiz->esquerdo) >= 0){
         raiz = direita(raiz);
     }else if( ft > 1 && fator(raiz->esquerdo) < 0){
         raiz = dupla_e_d(raiz);
@@ -143,6 +163,7 @@ No* inserir(No *raiz, int x){
         printf("Insercao do valor %d nao realizada. O elemento ja existe.\nDemais valores inseridos.\n", x);
     }
     raiz->altura = maior(altura(raiz->esquerdo), altura(raiz->direito))+1;
+ 
     raiz = balancear(raiz);
     fator(raiz);
 
@@ -150,7 +171,7 @@ No* inserir(No *raiz, int x){
 }
 
 /**
-*
+* Remove nó
 */
 No* remover(No *raiz, int chave){
     if(raiz == NULL){
@@ -201,7 +222,7 @@ No* remover(No *raiz, int chave){
 }
 
 /**
-*
+* Imprimi a arvore
 */
 void imprimir(No *raiz, int nivel){
     int i;
@@ -216,9 +237,7 @@ void imprimir(No *raiz, int nivel){
     }
 
 }
-/**
-*
-*/
+
 
 /**
 * Desalocar nos da arvore

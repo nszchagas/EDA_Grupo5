@@ -1,6 +1,6 @@
 #include "arquivos.h"
 
-//Menu de opções
+//Menu de opÃ§Ãµes
 void menu(){
     printf("------------------------ [ Menu ] --------------------------\n"
 	"                 1 -   Gerar ABP\n"
@@ -15,7 +15,7 @@ void opcoes(){
 	"                 1 -   Abrir arquivo especifico\n"
     "                 2 -   Abrir arquivo aleatorio\n"
     "-------------------------------------------------------------\n");
-    printf("Abrir arquivo especifico ou abrr arquivo gerado pelo sistema?\n");
+    printf("Abrir arquivo especifico ou abrir arquivo gerado pelo sistema?\n");
     printf("Escolha uma das opcoes: ");
 }
 // Abrir arquivo existente para leiturua.
@@ -38,12 +38,12 @@ void criar_arquivo_aleatorio(){
     srand(time(NULL));
     max = rand() % 20;
     for (int i = 0; i < max; i++){
-        /* Gerar valores aleatórios entre zero e 1000 */
+        /* Gerar valores aleatÃ³rios entre zero e 1000 */
         num = rand() % 1000;
         fprintf(arquivo, "%i", num);
         fprintf(arquivo, "%s", ",");
     }
-    printf("Arquivo aleatorio criado com sucesso.");
+    printf("Arquivo aleatÃ³rio criado com sucesso.");
     fclose(arquivo);
 }
 // Limpar tela
