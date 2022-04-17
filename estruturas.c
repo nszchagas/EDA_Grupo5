@@ -153,14 +153,24 @@ void imprimir(struct no *raiz){
 }
 
 //Desalocando n�s da �rvore Bin�ria
-void liberaNo(No *no){
-    if(no==NULL){
-        return;
+void liberaNo(struct no *no){
+    if(no!=NULL){
+        liberaNo(no->esquerda);
+        liberaNo(no->direita);
+        free(no);
+        no=NULL;
     }
-    liberaNo(no->esquerda);
-    liberaNo(no->direita);
-    free(no);
-    no=NULL;
+
+}
+
+No* reiniciar(struct no *raiz){
+    if(raiz!=NULL){
+        liberaNo(raiz->esquerda);
+        liberaNo(raiz->direita);
+        raiz=NULL;
+    }
+    return raiz;
+
 }
 
 

@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "arquivos.h"
 #include "estruturas.h"
-#include "arquivos.c"
-#include "estruturas.c"
+
 
 
 int main(){
@@ -33,12 +32,14 @@ int main(){
             scanf("%d", &opcao);
             switch(opcao){
                 case 1:
+                    raiz = reiniciar(raiz);
                     printf("Digite o endereco do arquivo a ser aberto: ");
                     scanf("%s", endereco_arquivo);
                     arquivo_csv = abrir_arquivo_leitura(endereco_arquivo);
                     goto continua;
                     break;
                 case 2:
+                    raiz = reiniciar(raiz);
                     criar_arquivo_aleatorio();
                     arquivo_csv = abrir_arquivo_leitura("numeros.csv");
                     goto continua;
