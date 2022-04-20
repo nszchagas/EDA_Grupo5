@@ -8,7 +8,7 @@ typedef struct no{
     int fator;
 }No;
 
-//Criando novo no e retornando seu endere�o
+//Criando novo no e retornando seu endereco
 No* novoNo(int x){
     No *novo = malloc(sizeof(No));
 
@@ -52,7 +52,7 @@ int fatorBalanceamento(struct no *raiz){
     }
 }
 
-//Rotaca��o simples �1 esquerda
+//Rotacao simples a esquerda
 No* RotacaoSimplesEsquerda(No *raiz){
     No *y, *f;
     y = raiz->direita;
@@ -67,7 +67,7 @@ No* RotacaoSimplesEsquerda(No *raiz){
     return y;
 }
 
-//Rota��o simples � direita
+//Rotacao simples a direita
 No* RotacaoSimplesDireita(No *raiz){
     No *y, *f;
     y = raiz->esquerda;
@@ -82,13 +82,13 @@ No* RotacaoSimplesDireita(No *raiz){
     return y;
 }
 
-//Rota��o dupla � esquerda
+//Rotacao dupla a esquerda
 No* RotacaoDuplaEsquerda(No *raiz){
     raiz->direita = RotacaoSimplesDireita(raiz->direita);
     return RotacaoSimplesEsquerda(raiz);
 }
 
-//Rota��o dupla � direita
+//Rota��o dupla a direita
 No* RotacaoDuplaDireita(No *raiz){
     raiz->esquerda = RotacaoSimplesEsquerda(raiz->esquerda);
     return RotacaoSimplesDireita(raiz);
@@ -111,7 +111,7 @@ No* balancear(No *raiz){
     return raiz;
 }
 
-//Inserindo n� na �rvore e retornando o seu endere�o
+//Inserindo no na Arvore e retornando o seu endereco
 No* inserir(No *raiz, int valor){
     if(raiz == NULL){
         return novoNo(valor);
@@ -152,7 +152,19 @@ void imprimir(struct no *raiz){
     }
 }
 
-//Desalocando n�s da �rvore Bin�ria
+void imprimirCalculo(struct no *raiz){
+    if(raiz){
+        int direito=fatorBalanceamento(raiz->direita);
+        int esquerdo=fatorBalanceamento(raiz->esquerda);
+        imprimirCalculo(raiz->direita);
+        imprimirCalculo(raiz->esquerda);
+        printf("[%d] %d - %d = %d \n", raiz->chave, direito, esquerdo, raiz->fator);
+    }else{
+    return 0;
+    }
+}
+
+//Desalocando nos da Arvore Binaria
 void liberaNo(struct no *no){
     if(no!=NULL){
         liberaNo(no->esquerda);
@@ -172,5 +184,3 @@ No* reiniciar(struct no *raiz){
     return raiz;
 
 }
-
-

@@ -39,7 +39,7 @@ void criar_arquivo_aleatorio(){
     max = rand() % 20;
     for (int i = 0; i < max; i++){
         /* Gerar valores aleatórios entre zero e 1000 */
-        num = rand() % 1000;
+        num = rand() % 300;
         fprintf(arquivo, "%i", num);
         fprintf(arquivo, "%s", ",");
     }

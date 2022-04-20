@@ -3,8 +3,6 @@
 #include "arquivos.h"
 #include "estruturas.h"
 
-
-
 int main(){
     // Declaracoes
     char endereco_arquivo[30]; // Ponteiro para endere�o do arquivo
@@ -67,8 +65,11 @@ int main(){
             goto inicio;
             break;
         case 2:
-            printf("Calculando fatores de balanceamento: \n");
-            printf("%d", fatorBalanceamento(raiz));
+            printf("Calculando fatores de balanceamento: \n \n");
+            fatorBalanceamento(raiz);
+            printf("Calculo: \n");
+            printf("[Chave] (No da esquerda) - (No da direita) = (Fator de Balanceamento) \n \n");
+            imprimirCalculo(raiz);
             goto inicio;
             break;
         case 3:
