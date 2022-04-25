@@ -177,7 +177,7 @@ No* reiniciar(struct no *raiz){
     if(raiz!=NULL){
         liberaNo(raiz->esquerda);
         liberaNo(raiz->direita);
-        raiz==NULL;
+        raiz=NULL;
     }
     return raiz;
 
