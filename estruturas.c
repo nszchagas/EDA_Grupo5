@@ -42,10 +42,6 @@ int alturaNo(struct no* no) {
 //Calculando fator de balanceamento
 int fatorBalanceamento(struct no *raiz){
     if(raiz){
-        int direito=fatorBalanceamento(raiz->direita);
-        int esquerdo=fatorBalanceamento(raiz->esquerda);
-        int Balanceamento=direito-esquerdo;
-        raiz->fator=Balanceamento;
         return (alturaNo(raiz->esquerda) - alturaNo(raiz->direita));
     }else{
         return 0;
@@ -154,11 +150,13 @@ void imprimir(struct no *raiz){
 
 void imprimirCalculo(struct no *raiz){
     if(raiz){
-        int direito=fatorBalanceamento(raiz->direita);
-        int esquerdo=fatorBalanceamento(raiz->esquerda);
+        int direito=alturaNo(raiz->direita)+1;
+        int esquerdo=alturaNo(raiz->esquerda)+1;
+        raiz->fator=esquerdo-direito;
         imprimirCalculo(raiz->direita);
-        imprimirCalculo(raiz->esquerda);
-        printf("[%d] %d - %d = %d \n", raiz->chave, direito, esquerdo, raiz->fator);
+        imprimirCalculo
+        (raiz->esquerda);
+        printf("[%d] %d - %d = %d \n", raiz->chave, esquerdo, direito, raiz->fator);
     }else{
     return 0;
     }
@@ -166,20 +164,20 @@ void imprimirCalculo(struct no *raiz){
 
 //Desalocando nos da Arvore Binaria
 void liberaNo(struct no *no){
-    if(no!=NULL){
-        liberaNo(no->esquerda);
-        liberaNo(no->direita);
-        free(no);
-        no=NULL;
+    if(no==NULL){
+        return;
     }
-
+    liberaNo(no->esquerda);
+    liberaNo(no->direita);
+    free(no);
+    no=NULL;
 }
 
 No* reiniciar(struct no *raiz){
     if(raiz!=NULL){
         liberaNo(raiz->esquerda);
         liberaNo(raiz->direita);
-        raiz=NULL;
+        raiz==NULL;
     }
     return raiz;
 
